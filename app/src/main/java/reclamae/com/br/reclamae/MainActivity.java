@@ -1,5 +1,6 @@
 package reclamae.com.br.reclamae;
 
+<<<<<<< HEAD
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,10 +15,18 @@ public class MainActivity extends AppCompatActivity {
     EditText email;
     EditText senha;
 
+=======
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+>>>>>>> 89fc15a20346e0c6792d35cd33b09392962ed4d3
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 
         email = (EditText)findViewById(R.id.txtEmail);
         senha = (EditText)findViewById(R.id.txtSenha);
@@ -38,5 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+=======
+>>>>>>> 89fc15a20346e0c6792d35cd33b09392962ed4d3
     }
 }

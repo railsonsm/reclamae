@@ -1,3 +1,7 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">Reclamaê</string>
+=======
+    <string name="app_name">reclamae</string>
+>>>>>>> 89fc15a20346e0c6792d35cd33b09392962ed4d3
 </resources>
