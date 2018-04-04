@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="reclamae.com.br.reclamae.CadastrarActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/lblDescricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descrição"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="90dp" />
+
+        <EditText
+            android:id="@+id/txtDescricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="118dp"
+            tools:layout_editor_absoluteY="72dp"
+            android:text="Lugar muito esburacado, não tem como as criança bater o baba"/>
+
+        <TextView
+            android:id="@+id/lblCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categoria"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="157dp" />
+
+        <Spinner
+            android:id="@+id/spnCategoria"
+            android:layout_width="214dp"
+            android:layout_height="20dp"
+            tools:layout_editor_absoluteX="118dp"
+            tools:layout_editor_absoluteY="157dp" />
+
+        <TextView
+            android:id="@+id/lblLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Local"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="157dp" />
+
+        <EditText
+            android:id="@+id/txtLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:text="Salvador/BA"
+            tools:layout_editor_absoluteX="118dp"
+            tools:layout_editor_absoluteY="72dp" />
+
+
+
+
+        <TextView
+            android:id="@+id/txtFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:text="Foto do local (opcional)"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="216dp" />
+
+        <Button
+            android:id="@+id/btnCadastrar"
+            android:layout_width="163dp"
+            android:layout_height="67dp"
+            android:text="Quero Reclamar!"
+            tools:layout_editor_absoluteX="99dp"
+            tools:layout_editor_absoluteY="284dp" />
+
+        <Button
+            android:id="@+id/btnVoltar"
+            android:layout_width="163dp"
+            android:layout_height="67dp"
+            android:text="Voltar para o menu"
+            tools:layout_editor_absoluteX="99dp"
+            tools:layout_editor_absoluteY="284dp" />
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
