@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="reclamae.com.br.reclamae.MenusActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnCadastrar"
-            android:layout_width="190dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:text="Nova Reclamação" />
-
-        <Button
-            android:id="@+id/btnVer"
-            android:layout_width="190dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:text="Ver Reclamações" />
-
-    </LinearLayout>
-
-</LinearLayout>
+    <Button
+        android:id="@+id/relclame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="35dp"
+        android:width="150dp"
+        android:height="150dp"
+        android:layout_marginTop="45dp"
+        android:text="Aqui foto reclamequi" />
+    <Button
+        android:id="@+id/sugira"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="205dp"
+        android:width="150dp"
+        android:height="150dp"
+        android:layout_marginTop="45dp"
+        android:text="Aqui imagem sugestato" />
+    <Button
+        android:id="@+id/verReclame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="40dp"
+        android:width="310dp"
+        android:height="150dp"
+        android:layout_marginTop="230dp"
+        android:text="Button" />
+</RelativeLayout>

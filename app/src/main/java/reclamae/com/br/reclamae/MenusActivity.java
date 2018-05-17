@@ -16,16 +16,5 @@ public class MenusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menus);
 
-        btnCadastrar = (Button)findViewById(R.id.btnCadastrar);
-
-        btnCadastrar.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-
-            Intent intent = new Intent(MenusActivity.this, CadastrarActivity.class);
-            startActivity(intent);
-
-            }
-        });
-
     }
 }
