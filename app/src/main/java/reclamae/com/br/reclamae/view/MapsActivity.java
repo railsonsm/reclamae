@@ -1,10 +1,12 @@
-package reclamae.com.br.reclamae;
+package reclamae.com.br.reclamae.view;
 
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,17 +14,24 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import reclamae.com.br.reclamae.R;
+import reclamae.com.br.reclamae.dao.ReclamacaoDao;
+import reclamae.com.br.reclamae.model.Reclamacao;
+import reclamae.com.br.reclamae.util.PermissionUtils;
 
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private List<Reclamacao> reclamacaoes;
     private GoogleMap mMap;
-    private String tipo;
-    private Float cor;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +56,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        ReclamacaoDao dao = new ReclamacaoDao(MapsActivity.this);
+        List<Reclamacao> reclamacaoes = dao.listarReclamacoes();
+        // mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        for (int i = 0; i < reclamacaoes.size(); i++) {
+            LatLng ponto = new LatLng(reclamacaoes.get(i).getLatitude(), reclamacaoes.get(i).getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ponto, 15));
+            mMap.addMarker(new MarkerOptions().position(ponto)
+                    .title(reclamacaoes.get(i).getDescricao())
+                    .icon(BitmapDescriptorFactory.defaultMarker(reclamacaoes.get(i).getCor()))
+                    .snippet("Catedoria:" + reclamacaoes.get(i).getCategoria() + "/n" + "teste" ));
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(ponto));
+        }
+
+    /*
         mMap.animateCamera(CameraUpdateFactory.zoomIn());        // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-12.9812459, -38.4585933);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
+
+
+
+
+
+
 
     private void enableMyLocation() {
         //Testa se o usuário ja tem permissão
