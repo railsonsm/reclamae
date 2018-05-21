@@ -107,8 +107,6 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
                 reclamacao.setNome(nome);
                 ReclamacaoDao dao = new ReclamacaoDao(ReclamarActivity.this);
                 dao.salvar(reclamacao);
-                finish();
-                startActivity(intent);
                 Toast.makeText(ReclamarActivity.this, "Reclamação registrada", Toast.LENGTH_SHORT).show();
             }catch (Exception e){
                 e.printStackTrace();

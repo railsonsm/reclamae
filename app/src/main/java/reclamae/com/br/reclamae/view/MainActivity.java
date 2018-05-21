@@ -47,14 +47,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Usuario usuario = logar(email.getText().toString());
-            if(email.getText().toString().equals(usuario.getEmail()) &&
-                    senha.getText().toString().equals(usuario.getSenha())){
+            if (usuario.getEmail() == null) {
+                Toast.makeText(MainActivity.this, "E-mail não cadastrado", Toast.LENGTH_SHORT).show();
+            } else if (email.getText().toString().equals(usuario.getEmail()) &&
+                    senha.getText().toString().equals(usuario.getSenha())) {
 
                 Intent intent = new Intent(MainActivity.this, MenusActivity.class);
                 intent.putExtra("nome", usuario.getNome().toString());
                 startActivity(intent);
-            }
-            else{
+            } else {
                 Toast.makeText(MainActivity.this, "Email e/ou Senha inválido(s)", Toast.LENGTH_SHORT).show();
             }
         }
@@ -71,9 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public Usuario logar(String email){
         UsuarioDao dao = new UsuarioDao(MainActivity.this);
         Usuario usuario = dao.buscaUsuario(email);
-        if (usuario.getEmail() == null){
-            Toast.makeText(this, "E-mail não cadastrado", Toast.LENGTH_SHORT).show();
-        }
+
         return usuario;
     }
 
