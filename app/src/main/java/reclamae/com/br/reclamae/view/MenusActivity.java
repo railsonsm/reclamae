@@ -22,8 +22,16 @@ public class MenusActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menus);
+
+        Intent intent = getIntent();
+        usuario.setNome(intent.getStringExtra("nome"));
+
+
         btnMapa  = (Button) findViewById(R.id.verReclame);
+        btnReclamar  = (Button) findViewById(R.id.btnReclame);
+
         btnMapa.setOnClickListener(verReclamacoes);
+        btnReclamar.setOnClickListener(reclamar);
     }
 
     View.OnClickListener verReclamacoes = new View.OnClickListener() {
@@ -38,6 +46,7 @@ public class MenusActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(MenusActivity.this, ReclamarActivity.class);
+            intent.putExtra("nome", usuario.getNome().toString());
             startActivity(intent);
         }
     };

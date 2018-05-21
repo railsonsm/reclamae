@@ -63,9 +63,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng ponto = new LatLng(reclamacaoes.get(i).getLatitude(), reclamacaoes.get(i).getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ponto, 15));
             mMap.addMarker(new MarkerOptions().position(ponto)
-                    .title(reclamacaoes.get(i).getDescricao())
+                    .title("Usuário : " + reclamacaoes.get(i).getNome() + ", Categoria: " + reclamacaoes.get(i).getCategoria())
                     .icon(BitmapDescriptorFactory.defaultMarker(reclamacaoes.get(i).getCor()))
-                    .snippet("Catedoria:" + reclamacaoes.get(i).getCategoria() + "/n" + "teste" ));
+                    .snippet("Descrição: " + reclamacaoes.get(i).getDescricao()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(ponto));
         }

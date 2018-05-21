@@ -10,7 +10,7 @@
         android:id="@+id/lblTitulo"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:layout_above="@+id/reclame"
+        android:layout_above="@+id/btnReclame"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-40dp"
         android:text="MENU"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/reclame"
+        android:id="@+id/btnReclame"
         android:layout_width="140dp"
         android:layout_height="130dp"
         android:layout_alignParentTop="true"
@@ -34,7 +34,7 @@
         android:layout_width="140dp"
         android:layout_height="130dp"
         android:layout_alignEnd="@+id/verReclame"
-        android:layout_alignTop="@+id/reclame"
+        android:layout_alignTop="@+id/btnReclame"
         android:width="150dp"
         android:height="150dp"
         android:text="Aqui imagem sugestao" />
@@ -65,7 +65,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/reclame"
+        android:layout_alignStart="@+id/btnReclame"
         android:layout_marginBottom="19dp"
         android:text="Sair"
         app:layout_constraintLeft_toLeftOf="parent"

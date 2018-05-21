@@ -29,6 +29,7 @@ public class ReclamacaoDao {
         valores.put("latitude", reclamacao.getLatitude().toString());
         valores.put("longitude", reclamacao.getLongitude().toString());
         valores.put("cor", reclamacao.getCor().toString());
+        valores.put("nome", reclamacao.getNome().toString());
         cria.getWritableDatabase()
                 .insert("reclamacao"
                         , null
@@ -62,7 +63,7 @@ public class ReclamacaoDao {
 
     public List<Reclamacao> listarReclamacoes(){
         Reclamacao reclamacao = new Reclamacao();
-        String sql = "select descricao, cidade, latitude, longitude, categoria, cor from reclamacao order by id desc";
+        String sql = "select descricao, cidade, latitude, longitude, categoria, cor, nome from reclamacao order by id desc";
         Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
         List<Reclamacao> reclamacaoes = new ArrayList<>();
         while (c.moveToNext()) {
@@ -72,6 +73,7 @@ public class ReclamacaoDao {
             reclamacao.setLongitude(Double.valueOf(c.getString(3)));
             reclamacao.setCategoria(c.getString(4));
             reclamacao.setCor(Float.valueOf(c.getString(5)));
+            reclamacao.setNome(c.getString(6));
             reclamacaoes.add(reclamacao);
         }
         return reclamacaoes;

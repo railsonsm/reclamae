@@ -26,6 +26,7 @@ public class SQLLiteUtil extends SQLiteOpenHelper {
             ", descricao varchar(80) not null " +
             ", estado varchar(80) not null " +
             ", cidade varchar(80) not null " +
+            ", nome varchar(80) not null " +
             ", cor varchar(80) not null " +
             ", categoria varchar(80) not null " +
             ", rua varchar(80) not null " +

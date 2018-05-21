@@ -80,10 +80,6 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
         btnVoltar.setOnClickListener(voltarMenu);
         btnReclamar.setOnClickListener(clickSalvar);
         btnBuscarLocal.setOnClickListener(buscarLocalizacao);
-
-
-
-
         PermissionUtils.validate(this, 0, permissoes);
     }
 
@@ -99,6 +95,8 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
     View.OnClickListener clickSalvar = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Intent intent = getIntent();
+            String nome  = intent.getStringExtra("nome");
             try {
                 reclamacao.setDescricao(txtDescricao.getText().toString());
                 reclamacao.setRua(txtRua.getText().toString());
@@ -106,8 +104,11 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
                 reclamacao.setEstado(txtEstado.getText().toString());
                 reclamacao.setLongitude(longi);
                 reclamacao.setLatitude(lati);
+                reclamacao.setNome(nome);
                 ReclamacaoDao dao = new ReclamacaoDao(ReclamarActivity.this);
                 dao.salvar(reclamacao);
+                finish();
+                startActivity(intent);
                 Toast.makeText(ReclamarActivity.this, "Reclamação registrada", Toast.LENGTH_SHORT).show();
             }catch (Exception e){
                 e.printStackTrace();

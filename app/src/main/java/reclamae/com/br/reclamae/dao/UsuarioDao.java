@@ -37,10 +37,11 @@ public class UsuarioDao  {
         Cursor c = null;
         String empName = "";
         try {
-            c = db.rawQuery("SELECT email, senha FROM usuario WHERE email=?", new String[] {email});
+            c = db.rawQuery("SELECT email, senha, nome FROM usuario WHERE email=?", new String[] {email});
             while (c.moveToNext()) {
                 usuario.setEmail(c.getString(0));
                 usuario.setSenha(c.getString(1));
+                usuario.setNome(c.getString(2));
             }
             return usuario;
         }finally {

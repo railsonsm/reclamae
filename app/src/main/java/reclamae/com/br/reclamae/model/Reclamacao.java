@@ -6,6 +6,7 @@ package reclamae.com.br.reclamae.model;
 
 public class Reclamacao {
     private Long id ;
+    private String nome;
     private String descricao;
     private String Cidade;
     private String Estado;
@@ -15,6 +16,13 @@ public class Reclamacao {
     private String categoria;
     private Float cor;
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public Float getCor() {
         return cor;
