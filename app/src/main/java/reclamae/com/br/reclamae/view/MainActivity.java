@@ -1,7 +1,10 @@
 package reclamae.com.br.reclamae.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
     Button btnEntrar;
     EditText email;
     EditText senha;
+    Usuario usuario = new Usuario();
+    private  static final String COMPARILHADO = "Compartilhado";
+    String nomeUsuario;
+    private SharedPreferences.OnSharedPreferenceChangeListener callback= new SharedPreferences.OnSharedPreferenceChangeListener(){
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            Log.i("Script", key + "update");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
             btnEntrar = (Button)findViewById(R.id.btnEntrar);
             btnCadastrar = (Button)findViewById(R.id.btnCadastrar);
 
-
             btnCadastrar.setOnClickListener(cadastrarUsuario);
+
+
+
 
             btnEntrar.setOnClickListener(entrar);
         }catch (NullPointerException e){
@@ -46,20 +60,39 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener entrar = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Usuario usuario = logar(email.getText().toString());
+            usuario = logar(email.getText().toString());
             if (usuario.getEmail() == null) {
                 Toast.makeText(MainActivity.this, "E-mail não cadastrado", Toast.LENGTH_SHORT).show();
             } else if (email.getText().toString().equals(usuario.getEmail()) &&
                     senha.getText().toString().equals(usuario.getSenha())) {
-
-                Intent intent = new Intent(MainActivity.this, MenusActivity.class);
-                intent.putExtra("nome", usuario.getNome().toString());
-                startActivity(intent);
+                   Intent intent = new Intent(MainActivity.this, MenusActivity.class);
+                    SharedPreferences nome = getSharedPreferences(COMPARILHADO, MODE_PRIVATE);
+                    nomeUsuario = nome.getString("nome", usuario.getNome());
+                    Log.i("teste", nomeUsuario );
+                   startActivity(intent);
             } else {
                 Toast.makeText(MainActivity.this, "Email e/ou Senha inválido(s)", Toast.LENGTH_SHORT).show();
             }
         }
     };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences nome = getSharedPreferences(COMPARILHADO, MODE_PRIVATE);
+        nome.registerOnSharedPreferenceChangeListener(callback);
+        SharedPreferences.Editor editor = nome.edit();
+        editor.putString("nome", usuario.getNome());
+        editor.commit();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences nome = getSharedPreferences(COMPARILHADO, MODE_PRIVATE);
+        nome.registerOnSharedPreferenceChangeListener(callback);
+    }
 
     View.OnClickListener cadastrarUsuario = new View.OnClickListener() {
         @Override

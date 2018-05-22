@@ -3,6 +3,7 @@ package reclamae.com.br.reclamae.view;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -36,6 +37,7 @@ import java.util.List;
 import reclamae.com.br.reclamae.R;
 import reclamae.com.br.reclamae.dao.ReclamacaoDao;
 import reclamae.com.br.reclamae.model.Reclamacao;
+import reclamae.com.br.reclamae.model.Usuario;
 import reclamae.com.br.reclamae.util.PermissionUtils;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -62,10 +64,14 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
     private EditText txtEstado;
     private Double longi= 0.0;
     private Double lati = 0.0;
+    Usuario usuario;
+    private  static final String COMPARILHADO = "Compartilhado";
+    String nomeUsuario;
     Reclamacao reclamacao= new Reclamacao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        reclamacao= new Reclamacao();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reclamar);
         PreencheCategorias();
@@ -81,7 +87,14 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
         btnReclamar.setOnClickListener(clickSalvar);
         btnBuscarLocal.setOnClickListener(buscarLocalizacao);
         PermissionUtils.validate(this, 0, permissoes);
+
+        SharedPreferences nome = getSharedPreferences(COMPARILHADO, MODE_PRIVATE);
+        nomeUsuario = nome.getString("nome", "oi");
+
+
+
     }
+
 
     View.OnClickListener buscarLocalizacao = new View.OnClickListener() {
         @Override
@@ -95,8 +108,6 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
     View.OnClickListener clickSalvar = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = getIntent();
-            String nome  = intent.getStringExtra("nome");
             try {
                 reclamacao.setDescricao(txtDescricao.getText().toString());
                 reclamacao.setRua(txtRua.getText().toString());
@@ -104,9 +115,10 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
                 reclamacao.setEstado(txtEstado.getText().toString());
                 reclamacao.setLongitude(longi);
                 reclamacao.setLatitude(lati);
-                reclamacao.setNome(nome);
+                reclamacao.setNome(nomeUsuario);
                 ReclamacaoDao dao = new ReclamacaoDao(ReclamarActivity.this);
                 dao.salvar(reclamacao);
+                reclamacao= new Reclamacao();
                 Toast.makeText(ReclamarActivity.this, "Reclamação registrada", Toast.LENGTH_SHORT).show();
             }catch (Exception e){
                 e.printStackTrace();
@@ -259,7 +271,6 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
         @SuppressLint("MissingPermission") Location l = LocationServices
                 .FusedLocationApi
                 .getLastLocation(googleApiClient); // PARA JÁ TER UMA COORDENADA PARA O UPDATE FEATURE UTILIZAR
-
         startLocationUpdate();
 
     }

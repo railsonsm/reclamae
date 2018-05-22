@@ -3,6 +3,7 @@ package reclamae.com.br.reclamae.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +63,11 @@ public class ReclamacaoDao {
 
 
     public List<Reclamacao> listarReclamacoes(){
+        SQLiteDatabase db  = cria.getReadableDatabase();
         Reclamacao reclamacao = new Reclamacao();
-        String sql = "select descricao, cidade, latitude, longitude, categoria, cor, nome from reclamacao order by id desc";
-        Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
+        Cursor c = null;
+        c = db.rawQuery("select descricao, cidade, latitude, longitude, categoria, cor, nome from reclamacao order by id desc",null);
+        //Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
         List<Reclamacao> reclamacaoes = new ArrayList<>();
         while (c.moveToNext()) {
             reclamacao.setDescricao(c.getString(0));
@@ -75,6 +78,7 @@ public class ReclamacaoDao {
             reclamacao.setCor(Float.valueOf(c.getString(5)));
             reclamacao.setNome(c.getString(6));
             reclamacaoes.add(reclamacao);
+            reclamacao = new Reclamacao();
         }
         return reclamacaoes;
 

@@ -1,12 +1,10 @@
 package reclamae.com.br.reclamae.view;
 
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,10 +12,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import reclamae.com.br.reclamae.R;
@@ -30,7 +27,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
-
 
 
     @Override
@@ -65,6 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions().position(ponto)
                     .title("Usuário : " + reclamacaoes.get(i).getNome() + ", Categoria: " + reclamacaoes.get(i).getCategoria())
                     .icon(BitmapDescriptorFactory.defaultMarker(reclamacaoes.get(i).getCor()))
+                    .alpha(0.5f)
                     .snippet("Descrição: " + reclamacaoes.get(i).getDescricao()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(ponto));
@@ -77,9 +74,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
-
-
-
 
 
 

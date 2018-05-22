@@ -1,9 +1,11 @@
 package reclamae.com.br.reclamae.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +19,23 @@ public class MenusActivity extends AppCompatActivity {
 
     Button btnReclamar;
     Button btnMapa;
+    String nomeUsuario;
+    private  static final String COMPARILHADO = "Compartilhado";
+
+
     Usuario usuario = new Usuario();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        usuario = new Usuario();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menus);
 
         Intent intent = getIntent();
-        usuario.setNome(intent.getStringExtra("nome"));
+
+        SharedPreferences nome = getSharedPreferences(COMPARILHADO, MODE_PRIVATE);
+        nomeUsuario = nome.getString("nome", "oi");
+        Log.i("menuoncreate", nomeUsuario );
+
 
 
         btnMapa  = (Button) findViewById(R.id.verReclame);
@@ -33,6 +44,7 @@ public class MenusActivity extends AppCompatActivity {
         btnMapa.setOnClickListener(verReclamacoes);
         btnReclamar.setOnClickListener(reclamar);
     }
+
 
     View.OnClickListener verReclamacoes = new View.OnClickListener() {
         @Override
@@ -46,7 +58,6 @@ public class MenusActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(MenusActivity.this, ReclamarActivity.class);
-            intent.putExtra("nome", usuario.getNome().toString());
             startActivity(intent);
         }
     };
