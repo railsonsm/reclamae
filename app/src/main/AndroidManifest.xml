@@ -41,7 +41,8 @@
             android:name=".view.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".util.BuscaLocal" />
-        <activity android:name=".view.CadastroUsuarioActivity"></activity>
+        <activity android:name=".view.CadastroUsuarioActivity" />
+        <activity android:name=".view.SugestaoActivity"></activity>
     </application>
 
 </manifest>

@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,27 +35,25 @@ import java.util.List;
 
 import reclamae.com.br.reclamae.R;
 import reclamae.com.br.reclamae.dao.ReclamacaoDao;
+import reclamae.com.br.reclamae.dao.SugestaoDao;
 import reclamae.com.br.reclamae.model.Reclamacao;
+import reclamae.com.br.reclamae.model.Sugestao;
 import reclamae.com.br.reclamae.model.Usuario;
 import reclamae.com.br.reclamae.util.PermissionUtils;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class ReclamarActivity extends AppCompatActivity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-
+public class SugestaoActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     String[] permissoes = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
     };
-    float bitmapDescriptorFactory =  BitmapDescriptorFactory.HUE_RED;
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    private String[] categorias = new String[]{"Saúde", "Sanamento", "Educação", "Limpeza", "Segurança"};
-    private Spinner spnCategoria;
     Button btnVoltar;
     Button btnBuscarLocal;
-    Button btnReclamar;
+    Button btnSugerir;
     private Address endereco;
     private EditText txtDescricao;
     private EditText txtRua;
@@ -64,27 +61,23 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
     private EditText txtEstado;
     private Double longi= 0.0;
     private Double lati = 0.0;
-    Usuario usuario;
     private  static final String COMPARILHADO = "Compartilhado";
     String nomeUsuario;
-    Reclamacao reclamacao= new Reclamacao();
+    Sugestao sugestao= new Sugestao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        reclamacao= new Reclamacao();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reclamar);
-        PreencheCategorias();
-        btnBuscarLocal = (Button) findViewById(R.id.btnBuscarLoc);
-        btnVoltar = (Button)findViewById(R.id.btnVoltar);
-        btnReclamar = (Button)findViewById(R.id.btnReclamar);
-        txtDescricao = (EditText) findViewById(R.id.txtDescricao);
-        txtEstado = (EditText) findViewById(R.id.txtEstado);
-        txtRua = (EditText) findViewById(R.id.txtRua);
-        txtCidade = (EditText) findViewById(R.id.txtCidade);
-        spnCategoria = (Spinner) findViewById(R.id.spnCategoria);
+        setContentView(R.layout.activity_sugestao);
+        btnBuscarLocal = (Button) findViewById(R.id.sbtnBuscarLoc);
+        btnVoltar = (Button)findViewById(R.id.sbtnVoltar);
+        btnSugerir = (Button)findViewById(R.id.sbtnSugerir);
+        txtDescricao = (EditText) findViewById(R.id.stxtDescricao);
+        txtEstado = (EditText) findViewById(R.id.stxtEstado);
+        txtRua = (EditText) findViewById(R.id.stxtRua);
+        txtCidade = (EditText) findViewById(R.id.stxtCidade);
         btnVoltar.setOnClickListener(voltarMenu);
-        btnReclamar.setOnClickListener(clickSalvar);
+        btnSugerir.setOnClickListener(clickSalvar);
         btnBuscarLocal.setOnClickListener(buscarLocalizacao);
         PermissionUtils.validate(this, 0, permissoes);
 
@@ -100,7 +93,7 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
         @Override
         public void onClick(View view) {
             callConnection();
-            Toast.makeText(ReclamarActivity.this, "Aguarde...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SugestaoActivity.this, "Aguarde...", Toast.LENGTH_SHORT).show();
             googleApiClient.connect();
         }
     };
@@ -109,18 +102,18 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
         @Override
         public void onClick(View view) {
             try {
-                reclamacao.setDescricao(txtDescricao.getText().toString());
-                reclamacao.setRua(txtRua.getText().toString());
-                reclamacao.setCidade(txtCidade.getText().toString());
-                reclamacao.setEstado(txtEstado.getText().toString());
-                reclamacao.setLongitude(longi);
-                reclamacao.setLatitude(lati);
-                reclamacao.setNome(nomeUsuario);
-                ReclamacaoDao dao = new ReclamacaoDao(ReclamarActivity.this);
-                dao.salvar(reclamacao);
-                reclamacao= new Reclamacao();
-                Toast.makeText(ReclamarActivity.this, "Reclamação registrada", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ReclamarActivity.this, MenusActivity.class);
+                sugestao.setDescricao(txtDescricao.getText().toString());
+                sugestao.setRua(txtRua.getText().toString());
+                sugestao.setCidade(txtCidade.getText().toString());
+                sugestao.setEstado(txtEstado.getText().toString());
+                sugestao.setLongitude(longi);
+                sugestao.setLatitude(lati);
+                sugestao.setNome(nomeUsuario);
+                SugestaoDao dao = new SugestaoDao(SugestaoActivity.this);
+                dao.salvar(sugestao);
+                sugestao= new Sugestao();
+                Toast.makeText(SugestaoActivity.this, "Sugestão registrada", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SugestaoActivity.this, MenusActivity.class);
                 startActivity(intent);
             }catch (Exception e){
                 e.printStackTrace();
@@ -131,53 +124,13 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
     View.OnClickListener voltarMenu = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(ReclamarActivity.this, MenusActivity.class);
+            Intent intent = new Intent(SugestaoActivity.this, MenusActivity.class);
             startActivity(intent);
         }
     };
 
-    private void PreencheCategorias(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_dropdown_item, categorias);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spnCategoria = (Spinner)findViewById(R.id.spnCategoria);
-        spnCategoria.setAdapter(adapter);
-        spnCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                reclamacao.setCategoria(spnCategoria.getItemAtPosition(i).toString());
-                switch (i){
-                    case 0:
-                        reclamacao.setCor(bitmapDescriptorFactory = BitmapDescriptorFactory.HUE_RED);
-                        reclamacao.setIdCategoria(Integer.toString(0));
-                        break;
-                    case 1:
-                        reclamacao.setCor(bitmapDescriptorFactory = BitmapDescriptorFactory.HUE_ORANGE);
-                        reclamacao.setIdCategoria(Integer.toString(1));
-                        break;
-                    case 2:
-                        reclamacao.setCor( bitmapDescriptorFactory = BitmapDescriptorFactory.HUE_AZURE);
-                        reclamacao.setIdCategoria(Integer.toString(2));
-                        break;
-                    case 3:
-                        reclamacao.setCor( bitmapDescriptorFactory =  BitmapDescriptorFactory.HUE_BLUE);
-                        reclamacao.setIdCategoria(Integer.toString(3));
-                        break;
-                    case 4:
-                        reclamacao.setCor(bitmapDescriptorFactory = BitmapDescriptorFactory.HUE_VIOLET);
-                        reclamacao.setIdCategoria(Integer.toString(4));
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
 
 
 
@@ -301,13 +254,13 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
     @Override
     public void onLocationChanged(Location location) {
         try {
-        Log.i("LOG", "onLocationChanged(" +location.toString() + ")");
-        Double latPoint = location.getLatitude();
-        Double lngPoint = location.getLongitude();
-        String resultAddress = "";
+            Log.i("LOG", "onLocationChanged(" +location.toString() + ")");
+            Double latPoint = location.getLatitude();
+            Double lngPoint = location.getLongitude();
+            String resultAddress = "";
 
-        lati  = latPoint;
-        longi = lngPoint;
+            lati  = latPoint;
+            longi = lngPoint;
 
 
 
@@ -346,21 +299,3 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
         return endereco;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

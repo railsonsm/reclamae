@@ -4,7 +4,7 @@ package reclamae.com.br.reclamae.model;
  * Created by railson on 17/05/2018.
  */
 
-public class Reclamacao {
+public class Sugestao {
     private Long id ;
     private String nome;
     private String descricao;
@@ -13,9 +13,14 @@ public class Reclamacao {
     private String Rua;
     private Double latitude;
     private Double longitude;
-    private String categoria;
-    private String idCategoria;
-    private Float cor;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -25,28 +30,12 @@ public class Reclamacao {
         this.nome = nome;
     }
 
-    public Float getCor() {
-        return cor;
-    }
-
-    public void setCor(Float cor) {
-        this.cor = cor;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCidade() {
@@ -87,21 +76,5 @@ public class Reclamacao {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(String idCategoria) {
-        this.idCategoria = idCategoria;
     }
 }

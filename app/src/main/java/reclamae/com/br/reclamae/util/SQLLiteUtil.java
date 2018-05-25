@@ -29,14 +29,29 @@ public class SQLLiteUtil extends SQLiteOpenHelper {
             ", nome varchar(80) not null " +
             ", cor varchar(80) not null " +
             ", categoria varchar(80) not null " +
+             ", idcategoria varchar(2) not null " +
             ", rua varchar(80) not null " +
             ", longitude varchar (20) " +
             ", latitude varchar (20)  )";
 
+    private static final String CREATE_TABLE_SUGESTAO =
+            "create table if not exists sugestao (" +
+                    "id Integer primary key autoincrement " +
+                    ", descricao varchar(80) not null " +
+                    ", estado varchar(80) not null " +
+                    ", cidade varchar(80) not null " +
+                    ", nome varchar(80) not null " +
+                    ", rua varchar(80) not null " +
+                    ", longitude varchar (20) " +
+                    ", latitude varchar (20)  )";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_USUARIO);
+        db.execSQL(CREATE_TABLE_SUGESTAO);
         db.execSQL(CREATE_TABLE_RECLAMACAO);
+        db.execSQL(CREATE_TABLE_USUARIO);
+
+
     }
 
     @Override

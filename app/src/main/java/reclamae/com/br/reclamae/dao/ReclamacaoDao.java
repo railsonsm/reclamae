@@ -26,6 +26,7 @@ public class ReclamacaoDao {
         valores.put("estado", reclamacao.getEstado());
         valores.put("cidade", reclamacao.getCidade());
         valores.put("rua", reclamacao.getRua());
+        valores.put("idCategoria", reclamacao.getIdCategoria());
         valores.put("categoria", reclamacao.getCategoria());
         valores.put("latitude", reclamacao.getLatitude().toString());
         valores.put("longitude", reclamacao.getLongitude().toString());
@@ -66,7 +67,7 @@ public class ReclamacaoDao {
         SQLiteDatabase db  = cria.getReadableDatabase();
         Reclamacao reclamacao = new Reclamacao();
         Cursor c = null;
-        c = db.rawQuery("select descricao, cidade, latitude, longitude, categoria, cor, nome from reclamacao order by id desc",null);
+        c = db.rawQuery("select descricao, cidade, latitude, longitude, categoria, cor, nome, idCategoria from reclamacao order by id desc",null);
         //Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
         List<Reclamacao> reclamacaoes = new ArrayList<>();
         while (c.moveToNext()) {
@@ -77,6 +78,7 @@ public class ReclamacaoDao {
             reclamacao.setCategoria(c.getString(4));
             reclamacao.setCor(Float.valueOf(c.getString(5)));
             reclamacao.setNome(c.getString(6));
+            reclamacao.setIdCategoria(c.getString(7));
             reclamacaoes.add(reclamacao);
             reclamacao = new Reclamacao();
         }

@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
                     senha.getText().toString().equals(usuario.getSenha())) {
                    Intent intent = new Intent(MainActivity.this, MenusActivity.class);
                     SharedPreferences nome = getSharedPreferences(COMPARILHADO, MODE_PRIVATE);
-                    nomeUsuario = nome.getString("nome", usuario.getNome());
-                    Log.i("teste", nomeUsuario );
+                    nomeUsuario = nome.getString("nome", usuario.getNome()+" "+usuario.getSobrenome());
+
                    startActivity(intent);
             } else {
                 Toast.makeText(MainActivity.this, "Email e/ou Senha inválido(s)", Toast.LENGTH_SHORT).show();
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences nome = getSharedPreferences(COMPARILHADO, MODE_PRIVATE);
         nome.registerOnSharedPreferenceChangeListener(callback);
         SharedPreferences.Editor editor = nome.edit();
-        editor.putString("nome", usuario.getNome());
+        editor.putString("nome", usuario.getNome()+" "+usuario.getSobrenome());
         editor.commit();
 
     }
