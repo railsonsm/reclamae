@@ -1,73 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="reclamae.com.br.reclamae.view.MenusActivity">
+    android:background="@drawable/fundotodos"
+    tools:context="reclamae.com.br.reclamae.view.MenusActivity"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lblTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_above="@+id/btnReclame"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-40dp"
-        android:text="MENU"
-        android:textSize="25dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="390dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:background="#40FFFFFF">
 
-    <Button
-        android:id="@+id/btnReclame"
-        android:layout_width="140dp"
-        android:layout_height="130dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/verReclame"
-        android:layout_marginTop="58dp"
-        android:width="150dp"
-        android:height="150dp"
-        android:text="Aqui foto reclamequi" />
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="96dp"
+            android:layout_height="76dp"
+            app:srcCompat="@drawable/megaphone"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="25dp" />
 
-    <Button
-        android:id="@+id/sugira"
-        android:layout_width="140dp"
-        android:layout_height="130dp"
-        android:layout_alignEnd="@+id/verReclame"
-        android:layout_alignTop="@+id/btnReclame"
-        android:width="150dp"
-        android:height="150dp"
-        android:text="Aqui imagem sugestao" />
 
-    <Button
-        android:id="@+id/verReclame"
-        android:layout_width="300dp"
-        android:layout_height="103dp"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="30dp"
-        android:width="310dp"
-        android:height="150dp"
-        android:text="Ver reclamações" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/verSugestoes"
-        android:layout_width="300dp"
-        android:layout_height="103dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp"
-        android:layout_marginLeft="30dp"
-        android:width="310dp"
-        android:height="150dp"
-        android:text="Ver Sugestões" />
-        <Button
-        android:id="@+id/btnVoltar"
-        android:layout_width="300dp"
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="RECLAMAÊ"
+                android:textColor="@color/colorPrimary"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="105dp"
+                tools:layout_editor_absoluteY="36dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="O QUE FALTA NO MEU BAIRRO"
+                android:textSize="15dp"
+                android:layout_gravity="center_horizontal"
+
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#590000ff"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/btnReclame"
-        android:layout_marginBottom="19dp"
-        android:text="Sair"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</RelativeLayout>
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/home"
+            android:layout_marginRight="10dp"
+            />
+
+        <TextView
+            android:id="@+id/lblTitulo"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:text="MENU INICIAL" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="110dp"
+            android:gravity="center_horizontal"
+            android:background="#590000ff"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/btnReclame"
+                android:layout_marginTop="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/megaphone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:text="RECLAMAR"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="110dp"
+            android:gravity="center_horizontal"
+            android:background="#1A0000ff"
+            android:orientation="vertical">
+        <Button
+            android:id="@+id/sugira"
+            android:layout_marginTop="10dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/question" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:text="SUGESTÃO"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="120dp"
+                android:layout_height="110dp"
+                android:gravity="center_horizontal"
+                android:background="#1A0000ff"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/verReclame"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/binoculars"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="RECLAMACÕES"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="120dp"
+                android:layout_height="110dp"
+                android:gravity="center_horizontal"
+                android:background="#1A0000ff"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/verSugestoes"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/binoculars"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="SUGESTÕES"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+</LinearLayout>
+
+<LinearLayout
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_marginLeft="75dp"
+            android:layout_width="120dp"
+            android:layout_height="110dp"
+            android:gravity="center_horizontal"
+            android:background="#1A0000ff"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/sair"
+                android:layout_marginTop="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/exit" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:text="SAIR"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+</LinearLayout>

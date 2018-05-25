@@ -1,76 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background"
     tools:context="reclamae.com.br.reclamae.view.MainActivity">
 
-    <TextView
-        android:id="@+id/lblEmail"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="390dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:background="#40FFFFFF">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="96dp"
+            android:layout_height="76dp"
+            app:srcCompat="@drawable/megaphone"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="25dp" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="RECLAMAÊ"
+                android:textColor="@color/colorPrimary"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="105dp"
+                tools:layout_editor_absoluteY="36dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="O QUE FALTA NO MEU BAIRRO"
+                android:textSize="15dp"
+                android:layout_gravity="center_horizontal"
+
+
+                />
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="#590000ff">
+
+        <TextView
+            android:id="@+id/lblTitulo"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:text="BEM-VINDO" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="108dp"
-        android:text="E-mail"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingHorizontal="20dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/txtEmail"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="124dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="admin@admin"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lblSenha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="168dp"
-        android:text="Senha"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/lblEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="E-MAIL"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/txtSenha"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="184dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="123"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textSize="20dp"
+            android:text="admin@admin"/>
 
-    <Button
-        android:id="@+id/btnEntrar"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="240dp"
-        android:text="Entrar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/lblSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SENHA"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/txtSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="123" />
 
-    <Button
-        android:id="@+id/btnCadastrar"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="308dp"
-        android:text="Cadastre-se"
-        android:textSize="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:orientation="vertical">
 
+            <Button
+                android:id="@+id/btnEntrar"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:background="#0000ff"
+                android:text="Entrar"
+                android:textColor="#FFFFFF"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/btnCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#008000"
+                android:text="Cadastre-se"
+                android:textColor="#FFFFFF"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
