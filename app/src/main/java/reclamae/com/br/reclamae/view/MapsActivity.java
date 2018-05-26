@@ -2,17 +2,22 @@ package reclamae.com.br.reclamae.view;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
 
@@ -35,6 +41,9 @@ import reclamae.com.br.reclamae.model.Sugestao;
 import reclamae.com.br.reclamae.util.PermissionUtils;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private SupportMapFragment mapFrag;
+
+    List<Sugestao> sugestoesSelecioandas = new ArrayList<>();
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
@@ -42,9 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Integer tipo;
     Spinner spinner;
     String categoria;
+    SugestaoDao sugestaoDao = new SugestaoDao(MapsActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -57,51 +68,81 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        try{
+        try {
             Intent intent = getIntent();
             tipo = Integer.valueOf(intent.getStringExtra("tipo"));
-            if (tipo == 100){
+            if (tipo == 100) {
                 tipo = null;
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             tipo = null;
         }
 
         mMap = googleMap;
-        List<Reclamacao> reclamacaoes = findUsuariosTipo(tipo);
+        List<Reclamacao> reclamacaoes = findReclamacoes(tipo);
+        List<Sugestao> sugestaoes = findSugestoes(tipo);
 
         // mMap.animateCamera(CameraUpdateFactory.zoomIn());
+
         for (int i = 0; i < reclamacaoes.size(); i++) {
+
             LatLng reclame = new LatLng(reclamacaoes.get(i).getLatitude(), reclamacaoes.get(i).getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(reclame, 15));
             mMap.addMarker(new MarkerOptions().position(reclame)
-                    .title("Usuário : " + reclamacaoes.get(i).getNome() + ", Categoria: " +
-                            reclamacaoes.get(i).getCategoria())
+                    .title("Usuário :" + reclamacaoes.get(i).getNome() + "<br />" + "Categoria: " + reclamacaoes.get(i).getCategoria())
                     .icon(BitmapDescriptorFactory.defaultMarker(reclamacaoes.get(i).getCor()))
                     .alpha(0.5f)
                     .snippet("Descrição: " + reclamacaoes.get(i).getDescricao()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(reclame));
+            teste(mMap, 0);
         }
 
-        SugestaoDao sugestaoDao = new SugestaoDao(MapsActivity.this);
-        List<Sugestao> sugestaoes = sugestaoDao.listarSugestoes();
+
 
         for (int s = 0; s < sugestaoes.size(); s++) {
             Log.i("tamanho", String.valueOf(sugestaoes.get(s).getDescricao()));
             LatLng sugestao = new LatLng(sugestaoes.get(s).getLatitude(), sugestaoes.get(s).getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sugestao, 15));
             mMap.addMarker(new MarkerOptions().position(sugestao)
-                    .title("Usuário : " + sugestaoes.get(s).getNome())
+                    .title("Usuário :" + sugestaoes.get(s).getNome())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                     .alpha(1)
                     .snippet("Descrição: " + sugestaoes.get(s).getDescricao()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(sugestao));
+            teste(mMap, 1);
         }
+
     }
 
-    public void selecionaFiltro(){
+
+    public void teste(GoogleMap map, final int cor) {
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                TextView tv = new TextView(MapsActivity.this);
+                tv.setText(Html.fromHtml("<b><font color=\"#ff0000\">" + marker.getTitle() + ":</font></b><br /> " + marker.getSnippet()));
+
+                return tv;
+            }
+
+            @Override
+            public View getInfoWindow(Marker marker) {
+                LinearLayout ll = new LinearLayout(MapsActivity.this);
+                ll.setPadding(20, 20, 20, 20);
+                ll.setBackgroundColor(Color.WHITE);
+                TextView tv = new TextView(MapsActivity.this);
+                tv.setText(Html.fromHtml("<font color=\"#000000\">" + marker.getTitle() + "</font><br /> " + marker.getSnippet()));
+                ll.addView(tv);
+                return ll;
+            }
+
+        });
+    }
+
+    public void selecionaFiltro() {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MapsActivity.this, android.R.layout.simple_spinner_dropdown_item, categorias);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner = (Spinner) findViewById(R.id.locateSpinner);
@@ -110,7 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MapsActivity.this, MapsActivity.class);
-                switch (categorias[i]){
+                switch (categorias[i]) {
                     case "Saúde":
                         intent.putExtra("tipo", tipo.toString(0));
                         startActivity(intent);
@@ -132,8 +173,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         startActivity(intent);
                         break;
                     case "Apenas sugestões":
-                       // intent.putExtra("tipo", tipo.toString(4));
-                        //startActivity(intent);
+                        intent.putExtra("tipo", tipo.toString(5));
+                        startActivity(intent);
                         break;
                     case "Tudo":
                         intent.putExtra("tipo", tipo.toString(100));
@@ -151,23 +192,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private List<Reclamacao> findUsuariosTipo(Integer idCat){
+    private List<Reclamacao> findReclamacoes(Integer idCat) {
         ReclamacaoDao dao = new ReclamacaoDao(MapsActivity.this);
         List<Reclamacao> reclamacaosSelecioandas = dao.listarReclamacoes();
         List<Reclamacao> results = new ArrayList<>();
-        try{
-            for(int i = 0; i < reclamacaosSelecioandas.size(); i++){
-                if(reclamacaosSelecioandas.get(i).getIdCategoria().equalsIgnoreCase(Integer.valueOf(idCat).toString())){
+        try {
+            for (int i = 0; i < reclamacaosSelecioandas.size(); i++) {
+                if (reclamacaosSelecioandas.get(i).getIdCategoria().equalsIgnoreCase(Integer.valueOf(idCat).toString())) {
                     results.add(reclamacaosSelecioandas.get(i));
                 }
             }
-            if(results.size()==0){
+            if ((results.size() == 0) && (tipo !=5)) {
                 Toast.makeText(this, "Não existe registro para esta categoria ", Toast.LENGTH_SHORT).show();
             }
-        }catch (NullPointerException e){
+
+        } catch (NullPointerException e) {
             return reclamacaosSelecioandas;
         }
-        return  results;
+        return results;
+    }
+
+    private List<Sugestao> findSugestoes(Integer tipo){
+        try{
+            if((tipo==null) || (tipo == 5)){
+                SugestaoDao dao = new SugestaoDao(MapsActivity.this);
+                sugestoesSelecioandas = dao.listarSugestoes();
+                return sugestoesSelecioandas;
+            }else {
+                return new ArrayList<>();
+            }
+        }catch (NullPointerException e){
+            return sugestoesSelecioandas;
+        }
     }
 
 
