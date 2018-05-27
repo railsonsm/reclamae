@@ -133,6 +133,7 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
         public void onClick(View view) {
             Intent intent = new Intent(ReclamarActivity.this, MenusActivity.class);
             startActivity(intent);
+            finish();
         }
     };
 
@@ -162,7 +163,7 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
                         reclamacao.setIdCategoria(Integer.toString(2));
                         break;
                     case 3:
-                        reclamacao.setCor( bitmapDescriptorFactory =  BitmapDescriptorFactory.HUE_BLUE);
+                        reclamacao.setCor( bitmapDescriptorFactory =  BitmapDescriptorFactory.HUE_MAGENTA);
                         reclamacao.setIdCategoria(Integer.toString(3));
                         break;
                     case 4:

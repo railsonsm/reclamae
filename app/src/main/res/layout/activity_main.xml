@@ -119,6 +119,7 @@
             android:textSize="20dp"
             android:ems="10"
             android:inputType="textPersonName"
+            android:password="true"
             android:text="123" />
 
         </LinearLayout>

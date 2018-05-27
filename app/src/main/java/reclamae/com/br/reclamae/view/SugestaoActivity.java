@@ -115,6 +115,7 @@ public class SugestaoActivity extends AppCompatActivity implements GoogleApiClie
                 Toast.makeText(SugestaoActivity.this, "Sugestão registrada", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SugestaoActivity.this, MenusActivity.class);
                 startActivity(intent);
+                finish();
             }catch (Exception e){
                 e.printStackTrace();
             }

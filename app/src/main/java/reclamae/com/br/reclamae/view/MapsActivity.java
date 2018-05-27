@@ -45,6 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     List<Sugestao> sugestoesSelecioandas = new ArrayList<>();
     private GoogleMap mMap;
+    Button btnMenu;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private String[] categorias = new String[]{"Selecione", "Saúde", "Sanamento", "Educação", "Limpeza", "Segurança", "Apenas sugestões", "Tudo"};
@@ -62,9 +63,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        btnMenu = (Button) findViewById(R.id.btnMenu) ;
+        btnMenu.setOnClickListener(menu);
         selecionaFiltro();
     }
+
+    View.OnClickListener menu = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MapsActivity.this, MenusActivity.class);
+            startActivity(intent);
+            finish();
+            //onDestroy();
+        }
+    };
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -82,12 +95,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<Reclamacao> reclamacaoes = findReclamacoes(tipo);
         List<Sugestao> sugestaoes = findSugestoes(tipo);
 
-        // mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
 
         for (int i = 0; i < reclamacaoes.size(); i++) {
 
             LatLng reclame = new LatLng(reclamacaoes.get(i).getLatitude(), reclamacaoes.get(i).getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(reclame, 15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(reclame, 100));
             mMap.addMarker(new MarkerOptions().position(reclame)
                     .title("Usuário :" + reclamacaoes.get(i).getNome() + "<br />" + "Categoria: " + reclamacaoes.get(i).getCategoria())
                     .icon(BitmapDescriptorFactory.defaultMarker(reclamacaoes.get(i).getCor()))
@@ -95,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .snippet("Descrição: " + reclamacaoes.get(i).getDescricao()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(reclame));
-            teste(mMap, 0);
+            teste(mMap);
         }
 
 
@@ -103,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (int s = 0; s < sugestaoes.size(); s++) {
             Log.i("tamanho", String.valueOf(sugestaoes.get(s).getDescricao()));
             LatLng sugestao = new LatLng(sugestaoes.get(s).getLatitude(), sugestaoes.get(s).getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sugestao, 15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sugestao, 100));
             mMap.addMarker(new MarkerOptions().position(sugestao)
                     .title("Usuário :" + sugestaoes.get(s).getNome())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
@@ -111,19 +124,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .snippet("Descrição: " + sugestaoes.get(s).getDescricao()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(sugestao));
-            teste(mMap, 1);
+            teste(mMap);
         }
 
     }
 
 
-    public void teste(GoogleMap map, final int cor) {
+    public void teste(GoogleMap map) {
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
             public View getInfoContents(Marker marker) {
                 TextView tv = new TextView(MapsActivity.this);
-                tv.setText(Html.fromHtml("<b><font color=\"#ff0000\">" + marker.getTitle() + ":</font></b><br /> " + marker.getSnippet()));
+                tv.setText(Html.fromHtml("<b><font color=\"#ff0000\">" + marker.getTitle() + ":</font></b><br /> " + marker.getSnippet() ));
 
                 return tv;
             }

@@ -1,8 +1,11 @@
 package reclamae.com.br.reclamae.view;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +40,43 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         btnCadastrar.setOnClickListener(cadastrarUsuario);
      }
 
+     private void validaCampos(){
+        boolean res = false;
+
+
+        String nome = txtNome.getText().toString();
+        String email = txtEmail.getText().toString();
+        String sobrenome = txtSobrenome.getText().toString();
+        String senha = txtSenha.getText().toString();
+
+        if(res = isCampoVazio(nome)){
+            txtNome.requestFocus();
+        }else if(res = isCampoVazio(sobrenome)){
+            txtSobrenome.requestFocus();
+         }else if(res = isCampoVazio(senha)){
+            txtSenha.requestFocus();
+        }else if(res= !isEmailValido(email)){
+            txtEmail.requestFocus();
+        }
+        if(res){
+            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+            dlg.setTitle("Aviso");
+            dlg.setMessage("Revise os campos obrigatórios");
+            dlg.setNeutralButton("OK", null);
+            dlg.show();
+        }
+     }
+
+     private boolean isCampoVazio(String valor){
+       boolean resultado = (TextUtils.isEmpty(valor) || valor.trim().isEmpty());
+       return resultado;
+     }
+
+     private boolean isEmailValido(String email){
+         boolean resultado = (!TextUtils.isEmpty(email)  && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        return  resultado;
+     }
+
     View.OnClickListener voltarMenu = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -48,6 +88,8 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
     View.OnClickListener cadastrarUsuario = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            validaCampos();
+           // validaCampos();
             try {
                 usuario.setNome(txtNome.getText().toString());
                 usuario.setSobrenome(txtSobrenome.getText().toString());

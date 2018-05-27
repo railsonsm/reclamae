@@ -60,7 +60,17 @@ public class SugestaoDao {
             sugestao = new Sugestao();
         }
         return sugestaoes;
-
+    }
+    public Long contaSugestoes(){
+        SQLiteDatabase db  = cria.getReadableDatabase();
+        Long result = null;
+        Cursor c = null;
+        c = db.rawQuery("select count(id) from sugestao order by id desc",null);
+        //Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            result= Long.valueOf(c.getString(0));
+        }
+        return result;
     }
 
 

@@ -83,23 +83,36 @@ public class ReclamacaoDao {
             reclamacao = new Reclamacao();
         }
         return reclamacaoes;
-
     }
 
+    public Long contaReclamacoes(){
+        SQLiteDatabase db  = cria.getReadableDatabase();
+        Long result = null;
+        Cursor c = null;
+        c = db.rawQuery("select count(id) from reclamacao order by id desc",null);
+        //Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            result= Long.valueOf(c.getString(0));
+        }
+        return result;
+    }
 
+    public List<Reclamacao> contaReclamacoesPorCategoria(){
+        SQLiteDatabase db  = cria.getReadableDatabase();
+        List<Reclamacao> contagem = new ArrayList<>();
+        Reclamacao reclamacao = new Reclamacao();
+        Cursor c = null;
+        c = db.rawQuery("select count(id), categoria from reclamacao group by categoria order by id desc",null);
+        //Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            reclamacao.setId(Long.valueOf(c.getString(0)));
+            reclamacao.setCategoria(c.getString(1 ));
+            contagem.add(reclamacao);
+            reclamacao = new Reclamacao();
+        }
+        return contagem;
 
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 
