@@ -2,6 +2,7 @@ package reclamae.com.br.reclamae.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,7 +15,9 @@ import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -101,32 +104,95 @@ public class SugestaoActivity extends AppCompatActivity implements GoogleApiClie
     View.OnClickListener clickSalvar = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            try {
-                sugestao.setDescricao(txtDescricao.getText().toString());
-                sugestao.setRua(txtRua.getText().toString());
-                sugestao.setCidade(txtCidade.getText().toString());
-                sugestao.setEstado(txtEstado.getText().toString());
-                sugestao.setLongitude(longi);
-                sugestao.setLatitude(lati);
-                sugestao.setNome(nomeUsuario);
-                SugestaoDao dao = new SugestaoDao(SugestaoActivity.this);
-                dao.salvar(sugestao);
-                sugestao= new Sugestao();
-                Toast.makeText(SugestaoActivity.this, "Sugestão registrada", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SugestaoActivity.this, MenusActivity.class);
-                startActivity(intent);
-                finish();
-            }catch (Exception e){
-                e.printStackTrace();
+            if(validaCampos()){
+                registrarSugestao();
             }
+            return;
         }
     };
+
+    private boolean validaCampos(){
+        boolean res = false;
+
+        String descricao = txtDescricao.getText().toString();
+        String cidade = txtCidade.getText().toString();
+        String estado = txtEstado.getText().toString();
+        String rua = txtRua.getText().toString();
+        String mensagem = "";
+
+        if(res = isCampoVazio(descricao)){
+            txtDescricao.requestFocus();
+            res = false;
+            mensagem("Campo descrição é obrigatório");
+        }else if(res =isQtdDigitos(descricao)){
+            res = false;
+            mensagem("Campo descrição deve ter mais de 10 caracteres");
+        }else if(res = isCampoVazio(rua)){
+            txtRua.requestFocus();
+            res = false;
+            mensagem("Campo rua é obrigatório");
+        }else if(res= isCampoVazio(cidade)){
+            txtCidade.requestFocus();
+            res = false;
+            mensagem("Campo cidade é obrigatório");
+        }else if(res = isCampoVazio(estado)){
+            txtEstado.requestFocus();
+            res = false;
+            mensagem("Campo estado é obrigatório");
+        }else if ((longi == 0.0) || (lati == 0.0)){
+            res = false;
+            mensagem("Clique no icone para pegar a localização");
+        }else{
+            res=true;
+        }
+        return res;
+    }
+
+    private void registrarSugestao(){
+        try {
+            sugestao.setDescricao(txtDescricao.getText().toString());
+            sugestao.setRua(txtRua.getText().toString());
+            sugestao.setCidade(txtCidade.getText().toString());
+            sugestao.setEstado(txtEstado.getText().toString());
+            sugestao.setLongitude(longi);
+            sugestao.setLatitude(lati);
+            sugestao.setNome(nomeUsuario);
+            SugestaoDao dao = new SugestaoDao(SugestaoActivity.this);
+            dao.salvar(sugestao);
+            sugestao= new Sugestao();
+            Toast.makeText(SugestaoActivity.this, "Sugestão registrada", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SugestaoActivity.this, MenusActivity.class);
+            startActivity(intent);
+            finish();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void mensagem(String mensagem){
+        AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+        dlg.setTitle("Aviso!");
+        dlg.setMessage(mensagem);
+        dlg.setNeutralButton("OK", null);
+        dlg.show();
+    }
+
+    private boolean isCampoVazio(String valor){
+        boolean resultado = (TextUtils.isEmpty(valor) || valor.trim().isEmpty());
+        return resultado;
+    }
+
+    private boolean isQtdDigitos(String valor){
+        boolean resultado = (valor.length()< 6);
+        return resultado;
+    }
 
     View.OnClickListener voltarMenu = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(SugestaoActivity.this, MenusActivity.class);
             startActivity(intent);
+            finish();
         }
     };
 
@@ -280,7 +346,7 @@ public class SugestaoActivity extends AppCompatActivity implements GoogleApiClie
 
         } catch (IOException e) {
             googleApiClient.disconnect();
-            Toast.makeText(this, "Sem conexão, tente novamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sem conexão, mas a localizacao foi captudara", Toast.LENGTH_SHORT).show();
             return;
         }
 

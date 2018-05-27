@@ -40,36 +40,62 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         btnCadastrar.setOnClickListener(cadastrarUsuario);
      }
 
-     private void validaCampos(){
+     private boolean validaCampos(){
         boolean res = false;
-
 
         String nome = txtNome.getText().toString();
         String email = txtEmail.getText().toString();
         String sobrenome = txtSobrenome.getText().toString();
         String senha = txtSenha.getText().toString();
+        String mensagem = "";
 
         if(res = isCampoVazio(nome)){
             txtNome.requestFocus();
-        }else if(res = isCampoVazio(sobrenome)){
+            res = false;
+            mensagem("Campo nome é obrigatório");
+        }else if(res =isQtdDigitos(nome)){
+            res = false;
+            mensagem("Campo nome deve ter mais de 5 caracteres");
+         }else if(res = isCampoVazio(sobrenome)){
             txtSobrenome.requestFocus();
-         }else if(res = isCampoVazio(senha)){
-            txtSenha.requestFocus();
+            res = false;
+            mensagem("Campo sobrenome é obrigatório");
+         }else if(res =isQtdDigitos(sobrenome)){
+            res = false;
+            mensagem("Campo sobrenome deve ter mais de 5 caracteres");
         }else if(res= !isEmailValido(email)){
             txtEmail.requestFocus();
+            res = false;
+            mensagem("Email inválido");
+        }else if(res = isCampoVazio(senha)){
+            txtSenha.requestFocus();
+            res = false;
+            mensagem("Campo senha é obrigatório");
+        }else if(res =isQtdDigitos(senha)){
+            res = false;
+            mensagem("Campo senha deve ter mais de 5 caracteres");
+        }else{
+            res=true;
         }
-        if(res){
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setTitle("Aviso");
-            dlg.setMessage("Revise os campos obrigatórios");
-            dlg.setNeutralButton("OK", null);
-            dlg.show();
-        }
+        return res;
+     }
+
+     private void mensagem(String mensagem){
+         AlertDialog.Builder dlg = new AlertDialog.Builder(this);
+         dlg.setTitle("Aviso!");
+         dlg.setMessage(mensagem);
+         dlg.setNeutralButton("OK", null);
+         dlg.show();
      }
 
      private boolean isCampoVazio(String valor){
        boolean resultado = (TextUtils.isEmpty(valor) || valor.trim().isEmpty());
        return resultado;
+     }
+
+     private boolean isQtdDigitos(String valor){
+         boolean resultado = (valor.length()< 6);
+         return resultado;
      }
 
      private boolean isEmailValido(String email){
@@ -88,22 +114,28 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
     View.OnClickListener cadastrarUsuario = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            validaCampos();
+            if(validaCampos()){
+              cadastrarUsuario();
+            };
            // validaCampos();
-            try {
-                usuario.setNome(txtNome.getText().toString());
-                usuario.setSobrenome(txtSobrenome.getText().toString());
-                usuario.setEmail(txtEmail.getText().toString());
-                usuario.setSenha(txtSenha.getText().toString());
-                UsuarioDao dao = new UsuarioDao(CadastroUsuarioActivity.this);
-                dao.salvar(usuario);
-                usuario = new Usuario();
-                Toast.makeText(CadastroUsuarioActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CadastroUsuarioActivity.this, MainActivity.class);
-                startActivity(intent);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            return;
         }
     };
+
+    private void cadastrarUsuario(){
+        try {
+            usuario.setNome(txtNome.getText().toString());
+            usuario.setSobrenome(txtSobrenome.getText().toString());
+            usuario.setEmail(txtEmail.getText().toString());
+            usuario.setSenha(txtSenha.getText().toString());
+            UsuarioDao dao = new UsuarioDao(CadastroUsuarioActivity.this);
+            dao.salvar(usuario);
+            usuario = new Usuario();
+            Toast.makeText(CadastroUsuarioActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CadastroUsuarioActivity.this, MainActivity.class);
+            startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
