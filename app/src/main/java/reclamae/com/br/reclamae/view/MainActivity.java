@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
             btnCadastrar.setOnClickListener(cadastrarUsuario);
 
-
+            Animacao();
 
 
             btnEntrar.setOnClickListener(entrar);
@@ -107,6 +109,21 @@ public class MainActivity extends AppCompatActivity {
         Usuario usuario = dao.buscaUsuario(email);
 
         return usuario;
+    }
+
+    private void Animacao(){
+        TextView tv = (TextView) this.findViewById(R.id.textView2);
+        TextView slogan = (TextView) this.findViewById(R.id.slogan);
+
+        TranslateAnimation animation1 = new TranslateAnimation(-500f, 0f, 0.0f, 0.0f); // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
+        animation1.setDuration(1500);
+        animation1.setFillAfter(true);
+        tv.startAnimation(animation1);
+
+        TranslateAnimation animation2 = new TranslateAnimation(500f, 0f, 0.0f, 0.0f); // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
+        animation2.setDuration(1500);
+        animation2.setFillAfter(true);
+        slogan.startAnimation(animation2);
     }
 
 }

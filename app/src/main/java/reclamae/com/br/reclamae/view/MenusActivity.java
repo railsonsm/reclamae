@@ -22,6 +22,7 @@ public class MenusActivity extends AppCompatActivity {
     String nomeUsuario;
     Button btnSugerir;
     Button btnGrafico, btnSair;
+    Button btnUrgencia;
     private  static final String COMPARILHADO = "Compartilhado";
 
 
@@ -45,14 +46,23 @@ public class MenusActivity extends AppCompatActivity {
         btnReclamar  = (Button) findViewById(R.id.btnReclame);
         btnGrafico  = (Button) findViewById(R.id.verGraficos);
         btnSair = (Button) findViewById(R.id.sair);
+        btnUrgencia  = (Button) findViewById(R.id.btnUrgencia);
 
         btnMapa.setOnClickListener(verReclamacoes);
         btnReclamar.setOnClickListener(reclamar);
         btnSugerir.setOnClickListener(sugerir);
         btnGrafico.setOnClickListener(graficos);
         btnSair.setOnClickListener(sair);
+        btnUrgencia.setOnClickListener(urgencia);
     }
 
+    View.OnClickListener urgencia = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MenusActivity.this, UrgenciaActivity.class);
+            startActivity(intent);
+        }
+    };
 
     View.OnClickListener verReclamacoes = new View.OnClickListener() {
         @Override

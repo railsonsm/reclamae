@@ -22,7 +22,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/home" />
+                android:background="@drawable/graph" />
 
             <TextView
                 android:id="@+id/lblTitulo"
@@ -65,10 +65,17 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:gravity="center_horizontal">
 
-
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="50dp"
+            android:id="@+id/btnMenu"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:background="#008000"
+            android:text="MENU" />
 
     </LinearLayout>
 

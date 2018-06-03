@@ -1,130 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="reclamae.com.br.reclamae.view.ReclamarActivity">
+    tools:context="reclamae.com.br.reclamae.view.ReclamarActivity"
+    android:orientation="vertical"
+    android:background="@drawable/fundotodos">
 
 
-    <TextView
-        android:id="@+id/slblDescricao"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="44dp"
-        android:text="Descrição"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />/>
-
-    <EditText
-        android:id="@+id/stxtDescricao"
-        android:layout_width="300dp"
-        android:layout_height="61dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="68dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/slblLocal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="224dp"
-        android:text="Rua"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/stxtRua"
-        android:layout_width="235dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="240dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="10dp"
+        android:background="#590000ff"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/slblCidade"
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/question"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/lblTitulo"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="20dp"
+                android:textColor="#FFFFFF"
+                android:text="INFORME A SUA SUGESTÃO" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="288dp"
-        android:text="Cidade"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/stxtCidade"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="304dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/slblDescricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="DESCRIÇÃO" />
 
-    <TextView
-        android:id="@+id/slblEstado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="192dp"
-        android:layout_marginTop="288dp"
-        android:text="Estado"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/stxtEstado"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="190dp"
-        android:layout_marginTop="304dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Button
-        android:id="@+id/sbtnSugerir"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="180dp"
-        android:layout_marginTop="444dp"
-        android:text="Quero Sugerir!"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/sbtnVoltar"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="444dp"
-        android:text="Voltar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/sbtnBuscarLoc"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="260dp"
-        android:layout_marginTop="240dp"
-        android:text="Buscar localização"
-        android:textSize="6dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/stxtDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine" />
 
 
 
+        <TextView
+            android:id="@+id/slblLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="RUA" />
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/stxtRua"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+
+
+            <Button
+                android:layout_marginLeft="10dp"
+                android:id="@+id/sbtnBuscarLoc"
+                android:layout_width="40dp"
+                android:layout_height="39dp"
+                android:text=""
+                android:background="@drawable/map"
+                android:textSize="6dp" />
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/slblCidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="CIDADE" />
+
+        <EditText
+            android:id="@+id/stxtCidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/slblEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="ESTADO" />
+
+        <EditText
+            android:id="@+id/stxtEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/sbtnSugerir"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:background="#0000ff"
+                android:textColor="#ffffff"
+                android:text="SUGERIR" />
+
+            <Button
+                android:layout_marginLeft="10dp"
+                android:id="@+id/sbtnVoltar"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:background="#008000"
+                android:text="Voltar" />
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

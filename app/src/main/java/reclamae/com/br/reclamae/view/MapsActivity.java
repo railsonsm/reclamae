@@ -1,9 +1,17 @@
 package reclamae.com.br.reclamae.view;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +28,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,6 +43,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +54,15 @@ import reclamae.com.br.reclamae.model.Reclamacao;
 import reclamae.com.br.reclamae.model.Sugestao;
 import reclamae.com.br.reclamae.util.PermissionUtils;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private SupportMapFragment mapFrag;
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    private SupportMapFragment mapFrag;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private Double longi= 0.0;
+    private Double lati = 0.0;
     List<Sugestao> sugestoesSelecioandas = new ArrayList<>();
     private GoogleMap mMap;
     Button btnMenu;
@@ -81,6 +101,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        callConnection();
+        googleApiClient.connect();
         try {
             Intent intent = getIntent();
             tipo = Integer.valueOf(intent.getStringExtra("tipo"));
@@ -98,11 +120,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
 
         for (int i = 0; i < reclamacaoes.size(); i++) {
-
+            LatLng teste = new LatLng(lati, longi);
             LatLng reclame = new LatLng(reclamacaoes.get(i).getLatitude(), reclamacaoes.get(i).getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(reclame, 100));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(teste, 100));
             mMap.addMarker(new MarkerOptions().position(reclame)
-                    .title("Usuário :" + reclamacaoes.get(i).getNome() + "<br />" + "Categoria: " + reclamacaoes.get(i).getCategoria())
+                    .title("Usuário :" + reclamacaoes.get(i).getNome() + "<br />" + "Categoria: " + reclamacaoes.get(i).getCategoria()
+                            + "<br />" + "Rua: " + reclamacaoes.get(i).getRua())
                     .icon(BitmapDescriptorFactory.defaultMarker(reclamacaoes.get(i).getCor()))
                     .alpha(0.5f)
                     .snippet("Descrição: " + reclamacaoes.get(i).getDescricao()));
@@ -114,14 +137,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         for (int s = 0; s < sugestaoes.size(); s++) {
+            LatLng teste = new LatLng(lati, longi);
             Log.i("tamanho", String.valueOf(sugestaoes.get(s).getDescricao()));
             LatLng sugestao = new LatLng(sugestaoes.get(s).getLatitude(), sugestaoes.get(s).getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sugestao, 100));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(teste, 100));
             mMap.addMarker(new MarkerOptions().position(sugestao)
                     .title("Usuário :" + sugestaoes.get(s).getNome())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                     .alpha(1)
-                    .snippet("Descrição: " + sugestaoes.get(s).getDescricao()));
+                    .snippet("Descrição: " + sugestaoes.get(s).getDescricao()
+                            + "<br />" + "Rua: " + sugestaoes.get(s).getRua()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(sugestao));
             teste(mMap);
@@ -136,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public View getInfoContents(Marker marker) {
                 TextView tv = new TextView(MapsActivity.this);
-                tv.setText(Html.fromHtml("<b><font color=\"#ff0000\">" + marker.getTitle() + ":</font></b><br /> " + marker.getSnippet() ));
+                tv.setText(Html.fromHtml("<b><font color=\"#D2691E\">" + marker.getTitle() + ":</font></b> " + marker.getSnippet() ));
 
                 return tv;
             }
@@ -147,7 +172,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ll.setPadding(20, 20, 20, 20);
                 ll.setBackgroundColor(Color.WHITE);
                 TextView tv = new TextView(MapsActivity.this);
-                tv.setText(Html.fromHtml("<font color=\"#000000\">" + marker.getTitle() + "</font><br /> " + marker.getSnippet()));
+                tv.setText(Html.fromHtml("<font color=\"#D2691E\">" +
+                        marker.getTitle() + "<br />" + marker.getSnippet() + "</font>"));
                 ll.addView(tv);
                 return ll;
             }
@@ -281,5 +307,117 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private synchronized void callConnection() {
+        Log.i("LOG", "callConnection()");
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addOnConnectionFailedListener(this)
+                .addConnectionCallbacks(this)
+                .addApi(LocationServices.API)
+                .build();
+
+    }
+
+    private void pedirPermissoes() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else
+            googleApiClient.connect();
+    }
+
+    @RequiresPermission(allOf = {ACCESS_COARSE_LOCATION , ACCESS_FINE_LOCATION})
+    public void onResume() {
+        super.onResume();
+
+        if (googleApiClient != null && googleApiClient.isConnected())
+            startLocationUpdate();
+
+    }
+
+
+
+    private void initLocationRequest() {
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(2000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    @RequiresPermission(allOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
+    private void startLocationUpdate(){
+        initLocationRequest();
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest,this );
+    }
+
+    private void stopLocationUpdate(){
+        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+    }
+
+    @Override
+    @RequiresPermission(allOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.i("LOG", "UpdateLocationActivity.onConnected(" + bundle + ")");
+
+        @SuppressLint("MissingPermission") Location l = LocationServices
+                .FusedLocationApi
+                .getLastLocation(googleApiClient); // PARA JÁ TER UMA COORDENADA PARA O UPDATE FEATURE UTILIZAR
+        startLocationUpdate();
+
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.i("LOG", "UpdateLocationActivity.onConnectionSuspended(" + i + ")");
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.i("LOG", "UpdateLocationActivity.onConnectionFailed(" + connectionResult + ")");
+
+    }
+
+
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+            Log.i("LOG", "onLocationChanged(" +location.toString() + ")");
+            Double latPoint = location.getLatitude();
+            Double lngPoint = location.getLongitude();
+            lati  = latPoint;
+            longi = lngPoint;
+            googleApiClient.disconnect();
+    }
+
+
+    public Address getEndereco(double latitude, double longitude) throws IOException {
+
+        Geocoder geocoder;
+        Address endereco= null;
+        List<Address> enderecos;
+        geocoder = new Geocoder(getApplicationContext());
+        enderecos = geocoder.getFromLocation(latitude,longitude,1);
+        if(enderecos.size()> 0)
+            endereco = enderecos.get(0);
+        googleApiClient.disconnect();
+        return endereco;
     }
 }

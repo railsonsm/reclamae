@@ -382,7 +382,7 @@ public class ReclamarActivity extends AppCompatActivity  implements GoogleApiCli
                 resultAddress += endereco.getAddressLine(i);
                 resultAddress += i < tam - 1 ? ", " : "";
             }
-            txtRua.setText(endereco.getThoroughfare());
+            txtRua.setText(endereco.getThoroughfare().toString());
 
             txtCidade.setText(endereco.getLocality());
             txtEstado.setText(endereco.getAdminArea());

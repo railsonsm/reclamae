@@ -46,7 +46,7 @@ public class SugestaoDao {
         SQLiteDatabase db  = cria.getReadableDatabase();
         Sugestao sugestao = new Sugestao();
         Cursor c = null;
-        c = db.rawQuery("select descricao, cidade, latitude, longitude, nome from sugestao order by id desc",null);
+        c = db.rawQuery("select descricao, cidade, latitude, longitude, nome, rua from sugestao order by id desc",null);
         //Cursor c = cria.getReadableDatabase().rawQuery(sql, null);
         List<Sugestao> sugestaoes = new ArrayList<>();
         while (c.moveToNext()) {
@@ -55,6 +55,7 @@ public class SugestaoDao {
             sugestao.setLatitude(Double.valueOf(c.getString(2)));
             sugestao.setLongitude(Double.valueOf(c.getString(3)));
             sugestao.setNome(c.getString(4));
+            sugestao.setRua(c.getString(5));
             Log.i("descricao" , String.valueOf(sugestao.getDescricao()));
             sugestaoes.add(sugestao);
             sugestao = new Sugestao();

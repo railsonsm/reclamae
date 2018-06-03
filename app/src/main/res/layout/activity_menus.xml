@@ -177,13 +177,13 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/binoculars" />
+                    android:background="@drawable/vermapa" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal"
-                    android:text="RECLAMACÕES"
+                    android:text="VER MAPA"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
 
@@ -204,7 +204,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/binoculars" />
+                    android:background="@drawable/graph" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -224,22 +224,49 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="120dp"
                 android:layout_height="110dp"
-                android:layout_marginLeft="75dp"
-                android:layout_marginRight="10dp"
-                android:background="#1A0000ff"
                 android:gravity="center_horizontal"
+                android:background="#1A0000ff"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnUrgencia"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/urgencia"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="URGÊNCIA"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="120dp"
+                android:layout_height="110dp"
+                android:gravity="center_horizontal"
+                android:background="#1A0000ff"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical">
 
                 <Button

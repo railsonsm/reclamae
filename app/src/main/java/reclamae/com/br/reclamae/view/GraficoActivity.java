@@ -1,10 +1,13 @@
 package reclamae.com.br.reclamae.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -34,10 +37,6 @@ import reclamae.com.br.reclamae.dao.SugestaoDao;
 import reclamae.com.br.reclamae.model.Reclamacao;
 
 public class GraficoActivity extends AppCompatActivity {
-    WebView wvGrafico;
-    WebView wvGrafico2;
-    String strURL1;
-    String strURL2;
 
     public static int rgb(String hex) {
         int color = (int) Long.parseLong(hex.replace("#", ""), 16);
@@ -55,48 +54,18 @@ public class GraficoActivity extends AppCompatActivity {
             rgb("#FF0000"), rgb("#7CFC00"),rgb("#FF0000"), rgb("#7CFC00"), rgb("#FF0000")
     };
 
+    Button btnMenu;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grafico);
-
-        //gerarGrafico();
-/*
-        strURL1 = "https://chart.googleapis.com/chart?" +
-                "cht=lc&" + //define o tipo do gráfico "linha"
-                "chxt=x,y&" + //imprime os valores dos eixos X, Y
-                "chs=300x300&" + //define o tamanho da imagem
-                "chd=t:10,45,5,10,13,26&" + //valor de cada coluna do gráfico
-                "chl=Jan|Fev|Mar|Abr|Mai|Jun&" + //rótulo para cada coluna
-                "chdl=Vendas&" + //legenda do gráfico
-                "chxr=1,0,50&" + //define o valor de início e fim do eixo
-                "chds=0,50&" + //define o valor de escala dos dados
-                "chg=0,5,0,0&" + //desenha linha horizontal na grade
-                "chco=3D7930&" + //cor da linha do gráfico
-                "chtt=Vendas+x+1000&" + //cabeçalho do gráfico
-                "chm=B,C5D4B5BB,0,0,0"; //fundo verde
-        strURL2 = "https://chart.googleapis.com/chart?" +
-                "cht=lc&" + //define o tipo do gráfico "linha"
-                "chxt=x,y&" + //imprime os valores dos eixos X, Y
-                "chs=300x300&" + //define o tamanho da imagem
-                "chd=t:20,35,10,15,18,30&" + //valor de cada coluna do gráfico
-                "chl=Jan|Fev|Mar|Abr|Mai|Jun&" + //rótulo para cada coluna
-                "chdl=Vendas&" + //legenda do gráfico
-                "chxr=1,0,50&" + //define o valor de início e fim do eixo
-                "chds=0,50&" + //define o valor de escala dos dados
-                "chg=0,5,0,0&" + //desenha linha horizontal na grade
-                "chco=3D7930&" + //cor da linha do gráfico
-                "chtt=Vendas+x+1000&" + //cabeçalho do gráfico
-                "chm=B,C5D4B5BB,0,0,0"; //fundo verde
-
-        wvGrafico = (WebView)findViewById(R.id.wvGrafico);
-        wvGrafico2 = (WebView)findViewById(R.id.wvGrafico);
-        wvGrafico.loadUrl(strURL1);
-        wvGrafico2.loadUrl(strURL2);*/
         gerarGraficoReclaSuge();
         gerarGraficoReclamacoesPorCategoria();
+
+        btnMenu = (Button) findViewById(R.id.btnMenu);
+        btnMenu.setOnClickListener(voltarMenu);
     }
 
     private void gerarGraficoReclaSuge() {
@@ -124,6 +93,14 @@ public class GraficoActivity extends AppCompatActivity {
         chart.setEntryLabelColor(Color.BLACK);
         chart.invalidate();
     }
+
+    View.OnClickListener voltarMenu = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(GraficoActivity.this, MenusActivity.class));
+            finish();
+        }
+    };
 
 
 
@@ -211,45 +188,3 @@ public class GraficoActivity extends AppCompatActivity {
 
     }
 }
-
- /*
-    private void gerarGraficoReclamacoesPorCategoria(){
-        ReclamacaoDao reclamacaoDao = new ReclamacaoDao(GraficoActivity.this);
-        List<Reclamacao> reclamacaos = reclamacaoDao.contaReclamacoesPorCategoria();
-
-        List<PieEntry> pieEntryList= new ArrayList<>();
-        for (int i=0; i<reclamacaos.size(); i++){
-
-
-            switch (reclamacaos.get(i).getCategoria()){
-                case "Saúde":
-                    REC_CAT[i] = rgb("FF0000");
-                    break;
-                case "Sanamento":
-                    REC_CAT[i] = rgb("#FFA500");
-                    break;
-                case "Educação":
-                    REC_CAT[i] = rgb("#6495ED");
-                    break;
-                case "Limpeza":
-                    REC_CAT[i] = rgb("#FF00FF");
-                    break;
-                case "Segurança":
-                    REC_CAT[i] = rgb("#EE82EE");
-                    break;
-            }
-           pieEntryList.add(new PieEntry(reclamacaos.get(i).getId(), reclamacaos.get(i).getCategoria()));
-        }
-        PieDataSet dataSet = new PieDataSet(pieEntryList, "");
-        dataSet.setColors(REC_CAT);
-        PieData data = new PieData(dataSet);
-
-        //buscar dados
-        PieChart chart = (PieChart) findViewById(R.id.chartReclamaoCat);
-        chart.setData(data);
-        chart.setEntryLabelColor(Color.BLACK);
-        Description descricao = new Description();
-        descricao.setText("Dados atualizados até: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
-        chart.setDescription(descricao);
-        chart.invalidate();
-     }*/
