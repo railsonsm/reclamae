@@ -55,14 +55,14 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
             mensagem("Campo nome é obrigatório");
         }else if(res =isQtdDigitos(nome)){
             res = false;
-            mensagem("Campo nome deve ter mais de 5 caracteres");
+            mensagem("Campo nome deve ter mais de 3 caracteres");
          }else if(res = isCampoVazio(sobrenome)){
             txtSobrenome.requestFocus();
             res = false;
             mensagem("Campo sobrenome é obrigatório");
          }else if(res =isQtdDigitos(sobrenome)){
             res = false;
-            mensagem("Campo sobrenome deve ter mais de 5 caracteres");
+            mensagem("Campo sobrenome deve ter mais de 3 caracteres");
         }else if(res= !isEmailValido(email)){
             txtEmail.requestFocus();
             res = false;
@@ -73,7 +73,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
             mensagem("Campo senha é obrigatório");
         }else if(res =isQtdDigitos(senha)){
             res = false;
-            mensagem("Campo senha deve ter mais de 5 caracteres");
+            mensagem("Campo senha deve ter mais de 3 caracteres");
         }else{
             res=true;
         }
@@ -94,7 +94,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
      }
 
      private boolean isQtdDigitos(String valor){
-         boolean resultado = (valor.length()< 6);
+         boolean resultado = (valor.length()< 4);
          return resultado;
      }
 
